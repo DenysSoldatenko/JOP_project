@@ -2,6 +2,9 @@ package com.example.jop_project.controllers;
 
 import org.springframework.stereotype.Controller;
 
+/**
+ * Controller class to handle requests to the home page.
+ */
 @Controller
 public class HomeController {
 

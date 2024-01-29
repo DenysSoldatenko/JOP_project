@@ -10,6 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Data;
+import lombok.ToString;
 
 /**
  * Represents a type of user in the system.
@@ -27,6 +28,7 @@ public class UserType {
   @Column(name = "user_type_name")
   private String userTypeName;
 
+  @ToString.Exclude
   @OneToMany(mappedBy = "userTypeId", cascade = CascadeType.ALL)
   private List<User> users;
 }
