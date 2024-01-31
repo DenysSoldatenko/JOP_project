@@ -29,6 +29,6 @@ public class UserType {
   private String userTypeName;
 
   @ToString.Exclude
-  @OneToMany(mappedBy = "userTypeId", cascade = CascadeType.ALL)
+  @OneToMany(mappedBy = "userType", cascade = CascadeType.ALL)
   private List<User> users;
 }

@@ -53,7 +53,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12 form-group">
-                                        <select required class="form-control" th:field="*{userTypeId}">
+                                        <select required class="form-control" th:field="*{userType}">
                                             <th:block th:each="userType :${userTypes}">
                                                 <option th:text="${userType.userTypeName}" th:value="${userType.userTypeId}"></option>
                                             </th:block>

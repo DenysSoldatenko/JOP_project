@@ -26,6 +26,6 @@ public class Skill {
   private String yearsOfExperience;
 
   @ManyToOne
-  @JoinColumn(name = "jobSeekerId", referencedColumnName = "job_seeker_id")
-  private JobSeeker jobSeekerId;
+  @JoinColumn(name = "job_seeker_id")
+  private JobSeeker jobSeeker;
 }

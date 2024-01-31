@@ -1,5 +1,6 @@
 package com.example.jop_project.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.NamedAttributeNode;
 import jakarta.persistence.NamedEntityGraph;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
@@ -22,7 +24,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @Entity
 @Table(name = "users")
-@NamedEntityGraph(name = "User.userType", attributeNodes = @NamedAttributeNode("userTypeId"))
+@NamedEntityGraph(name = "User.userType", attributeNodes = @NamedAttributeNode("userType"))
 public class User {
 
   @Id
@@ -46,6 +48,12 @@ public class User {
   private Date registrationDate;
 
   @ManyToOne
-  @JoinColumn(name = "userTypeId", referencedColumnName = "user_type_id")
-  private UserType userTypeId;
+  @JoinColumn(name = "user_type_id")
+  private UserType userType;
+
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+  private Recruiter recruiter;
+
+  @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
+  private JobSeeker jobSeeker;
 }

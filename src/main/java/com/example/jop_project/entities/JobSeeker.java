@@ -11,7 +11,6 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.List;
 import lombok.Data;
-import lombok.ToString;
 
 /**
  * Entity class representing a job seeker in the system.
@@ -22,12 +21,13 @@ import lombok.ToString;
 public class JobSeeker {
 
   @Id
+  @Column(name = "job_seeker_id")
   private int jobSeekerId;
 
   @MapsId
   @OneToOne
   @JoinColumn(name = "job_seeker_id")
-  private User userId;
+  private User user;
 
   private String firstName;
   private String lastName;
@@ -41,7 +41,16 @@ public class JobSeeker {
   @Column(length = 64)
   private String profilePhoto;
 
-  @ToString.Exclude
-  @OneToMany(cascade = CascadeType.ALL, mappedBy = "jobSeekerId")
+  @OneToMany(cascade = CascadeType.ALL, mappedBy = "jobSeeker")
   private List<Skill> skills;
+
+  /**
+   * Sets the user associated with job seeker.
+   */
+  public void setUser(User user) {
+    this.user = user;
+    if (user != null && user.getJobSeeker() != this) {
+      user.setJobSeeker(this);
+    }
+  }
 }
