@@ -6,6 +6,6 @@ package com.example.jop_project.utils;
 public class ErrorMessages {
   public static final String EMAIL_ALREADY_REGISTERED
         = "Email already registered. Please try to login or register with another email!";
-  public static final String USER_DOES_NOT_EXIST
-        = "User does not exist. Please register first!";
+  public static final String USER_NOT_FOUND
+        = "User not found!";
 }

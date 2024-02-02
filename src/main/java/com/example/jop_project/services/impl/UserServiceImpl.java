@@ -13,6 +13,7 @@ import jakarta.transaction.Transactional;
 import java.util.Date;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -24,6 +25,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
   private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
   private final RecruiterRepository recruiterRepository;
   private final JobSeekerRepository jobSeekerRepository;
 
@@ -35,6 +37,7 @@ public class UserServiceImpl implements UserService {
   @Transactional
   public void createUser(User user) {
     user.setActive(true);
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRegistrationDate(new Date(currentTimeMillis()));
     User savedUser = userRepository.save(user);
 
