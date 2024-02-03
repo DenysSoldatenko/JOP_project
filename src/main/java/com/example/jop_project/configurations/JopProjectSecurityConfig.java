@@ -1,11 +1,14 @@
 package com.example.jop_project.configurations;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -18,6 +21,7 @@ import org.springframework.security.web.SecurityFilterChain;
 public class JopProjectSecurityConfig {
 
   private final CustomUserDetailsService customUserDetailsService;
+  private final CustomAuthSuccessHandler customAuthSuccessHandler;
 
   private final String[] publicUrl = {
     "/",
@@ -62,12 +66,22 @@ public class JopProjectSecurityConfig {
   @Bean
   protected SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-    http.authenticationProvider(authenticationProvider());
-
-    http.authorizeHttpRequests(auth -> {
-      auth.requestMatchers(publicUrl).permitAll();
-      auth.anyRequest().authenticated();
-    });
+    http.authenticationProvider(authenticationProvider())
+      .authorizeHttpRequests(auth -> auth
+        .requestMatchers(publicUrl).permitAll()
+        .anyRequest().authenticated()
+      )
+      .formLogin(form -> form
+        .loginPage("/login")
+        .permitAll()
+        .successHandler(customAuthSuccessHandler)
+      )
+      .logout(logout -> logout
+        .logoutUrl("/logout")
+        .logoutSuccessUrl("/")
+      )
+      .cors(withDefaults())
+        .csrf(AbstractHttpConfigurer::disable);
 
     return http.build();
   }
