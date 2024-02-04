@@ -1,5 +1,6 @@
 package com.example.jop_project.services.impl;
 
+import static com.example.jop_project.utils.ErrorMessages.USER_NOT_FOUND;
 import static java.lang.System.currentTimeMillis;
 
 import com.example.jop_project.entities.JobSeeker;
@@ -13,6 +14,11 @@ import jakarta.transaction.Transactional;
 import java.util.Date;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -61,5 +67,24 @@ public class UserServiceImpl implements UserService {
    */
   public Optional<User> getUserByEmail(String email) {
     return userRepository.findByEmail(email);
+  }
+
+  @Override
+  public Object getCurrentUserProfile() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+      String username = authentication.getName();
+      User user = userRepository.findByEmail(username)
+          .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
+      int userId = user.getId();
+
+      if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("Recruiter"))) {
+        return recruiterRepository.findById(userId).orElse(new Recruiter());
+      } else {
+        return jobSeekerRepository.findById(userId).orElse(new JobSeeker());
+      }
+    }
+
+    return null;
   }
 }

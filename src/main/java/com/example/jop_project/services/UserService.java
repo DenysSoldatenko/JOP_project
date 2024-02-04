@@ -11,4 +11,6 @@ public interface UserService {
   void createUser(User user);
 
   Optional<User> getUserByEmail(String email);
+
+  Object getCurrentUserProfile();
 }
