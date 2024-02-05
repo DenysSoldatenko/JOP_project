@@ -6,10 +6,15 @@ import com.example.jop_project.entities.User;
 import com.example.jop_project.entities.UserType;
 import com.example.jop_project.services.UserService;
 import com.example.jop_project.services.UserTypeService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,4 +69,30 @@ public class UserController {
     return "dashboard";
   }
 
+  /**
+   * Performs login operation and redirects to the login page ("/login").
+   *
+   * @return The view name "login" to render the login page.
+   */
+  @GetMapping("/login")
+  public String login() {
+    return "login";
+  }
+
+  /**
+   * Performs logout operation and redirects to the home page ("/").
+   *
+   * @param request  The HTTP request.
+   * @param response The HTTP response.
+   * @return A redirect to the home page ("/").
+   */
+  @GetMapping("/logout")
+  public String logout(HttpServletRequest request, HttpServletResponse response) {
+    new SecurityContextLogoutHandler().logout(
+        request,
+        response,
+        SecurityContextHolder.getContext().getAuthentication()
+    );
+    return "redirect:/";
+  }
 }

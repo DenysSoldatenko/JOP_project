@@ -28,7 +28,7 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
             || r.getAuthority().equals("Recruiter"));
 
     if (hasRole) {
-      response.sendRedirect("/dashboard/");
+      response.sendRedirect("/dashboard");
     }
   }
 }
