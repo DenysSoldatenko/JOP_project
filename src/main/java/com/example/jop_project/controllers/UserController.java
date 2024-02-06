@@ -1,6 +1,7 @@
 package com.example.jop_project.controllers;
 
 import static com.example.jop_project.utils.ErrorMessages.EMAIL_ALREADY_REGISTERED;
+import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 
 import com.example.jop_project.entities.User;
 import com.example.jop_project.entities.UserType;
@@ -12,8 +13,6 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -91,7 +90,7 @@ public class UserController {
     new SecurityContextLogoutHandler().logout(
         request,
         response,
-        SecurityContextHolder.getContext().getAuthentication()
+        getContext().getAuthentication()
     );
     return "redirect:/";
   }

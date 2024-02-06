@@ -23,7 +23,7 @@ public class JopProjectSecurityConfig {
   private final CustomUserDetailsService customUserDetailsService;
   private final CustomAuthSuccessHandler customAuthSuccessHandler;
 
-  private final String[] publicUrl = {
+  private static final String[] PUBLIC_ROUTES = {
     "/",
     "/global-search/**",
     "/register",
@@ -69,7 +69,7 @@ public class JopProjectSecurityConfig {
 
     http
       .authorizeHttpRequests(auth -> auth
-        .requestMatchers(publicUrl).permitAll()
+        .requestMatchers(PUBLIC_ROUTES).permitAll()
         .anyRequest().authenticated()
       )
       .formLogin(form -> form
