@@ -65,7 +65,7 @@ public class UserController {
     }
 
     userService.createUser(user);
-    return "dashboard";
+    return "redirect:/dashboard";
   }
 
   /**
