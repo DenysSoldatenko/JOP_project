@@ -2,6 +2,8 @@ package com.example.project.configurations;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import com.example.project.security.CustomAuthSuccessHandler;
+import com.example.project.security.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

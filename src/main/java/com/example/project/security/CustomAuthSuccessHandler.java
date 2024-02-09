@@ -1,4 +1,4 @@
-package com.example.project.configurations;
+package com.example.project.security;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,8 +21,7 @@ public class CustomAuthSuccessHandler implements AuthenticationSuccessHandler {
                                       HttpServletResponse response,
                                       Authentication authentication) throws IOException {
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    String username = userDetails.getUsername();
-    log.info("\n The username {} is logged in. \n", username);
+    log.info("\n The username {} is logged in. \n", userDetails.getUsername());
     boolean hasRole = authentication.getAuthorities().stream()
         .anyMatch(r -> r.getAuthority().equals("Job Seeker")
             || r.getAuthority().equals("Recruiter"));

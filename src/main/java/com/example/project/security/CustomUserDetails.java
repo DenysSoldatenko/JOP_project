@@ -1,4 +1,4 @@
-package com.example.project.configurations;
+package com.example.project.security;
 
 import com.example.project.entities.User;
 import com.example.project.entities.UserType;

@@ -7,6 +7,10 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the {@link RecruiterService} interface
+ * that provides methods to manage {@link Recruiter} entities.
+ */
 @Service
 @RequiredArgsConstructor
 public class RecruiterServiceImpl implements RecruiterService {

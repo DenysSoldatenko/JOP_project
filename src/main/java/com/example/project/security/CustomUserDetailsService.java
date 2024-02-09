@@ -1,4 +1,4 @@
-package com.example.project.configurations;
+package com.example.project.security;
 
 import static com.example.project.utils.ErrorMessages.USER_NOT_FOUND;
 
