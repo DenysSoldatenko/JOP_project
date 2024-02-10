@@ -1,10 +1,14 @@
 package com.example.project.services.impl;
 
+import static com.example.project.utils.ErrorMessages.RECRUITER_NOT_FOUND;
+
 import com.example.project.entities.Recruiter;
+import com.example.project.entities.User;
 import com.example.project.repositories.RecruiterRepository;
 import com.example.project.services.RecruiterService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,5 +24,21 @@ public class RecruiterServiceImpl implements RecruiterService {
   @Override
   public Optional<Recruiter> findById(Integer id) {
     return recruiterRepository.findById(id);
+  }
+
+  @Override
+  public void createRecruiter(User user, Recruiter recruiter) {
+    Recruiter existingRecruiter =  recruiterRepository.findById(user.getId())
+        .orElseThrow(() -> new UsernameNotFoundException(RECRUITER_NOT_FOUND));
+
+    existingRecruiter.setFirstName(recruiter.getFirstName());
+    existingRecruiter.setLastName(recruiter.getLastName());
+    existingRecruiter.setCity(recruiter.getCity());
+    existingRecruiter.setState(recruiter.getState());
+    existingRecruiter.setCountry(recruiter.getCountry());
+    existingRecruiter.setCompany(recruiter.getCompany());
+    existingRecruiter.setProfilePhoto(recruiter.getProfilePhoto());
+
+    recruiterRepository.save(existingRecruiter);
   }
 }

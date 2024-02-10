@@ -7,5 +7,7 @@ public class ErrorMessages {
   public static final String EMAIL_ALREADY_REGISTERED
         = "Email already registered. Please try to login or register with another email!";
   public static final String USER_NOT_FOUND
-        = "User not found!";
+        = "User not found with email: ";
+  public static final String RECRUITER_NOT_FOUND
+        = "Recruiter not found with id: ";
 }
