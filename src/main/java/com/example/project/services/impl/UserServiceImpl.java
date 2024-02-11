@@ -15,7 +15,6 @@ import jakarta.transaction.Transactional;
 import java.util.Date;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -70,7 +69,6 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  @PreAuthorize("@expressionService.isAuthenticated()")
   public Object getCurrentUserProfile() {
     Authentication authentication = getContext().getAuthentication();
     String username = getContext().getAuthentication().getName();

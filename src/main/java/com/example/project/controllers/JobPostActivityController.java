@@ -4,7 +4,6 @@ import static org.springframework.security.core.context.SecurityContextHolder.ge
 
 import com.example.project.services.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ public class JobPostActivityController {
   private final UserService userService;
 
   @GetMapping("/dashboard")
-  @PreAuthorize("@expressionService.isAuthenticated()")
   public String searchJobs(Model model) {
     Object currentUserProfile = userService.getCurrentUserProfile();
     String currentUsername = getContext().getAuthentication().getName();

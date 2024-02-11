@@ -8,7 +8,6 @@ import com.example.project.security.SecurityContextHelper;
 import com.example.project.services.RecruiterService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +37,6 @@ public class RecruiterController {
    * @throws UsernameNotFoundException If the current user's email is not found in the database.
    */
   @GetMapping("/")
-  @PreAuthorize("@expressionService.isAuthenticated()")
   public String recruiterProfile(Model model) {
     User user = securityContextHelper.getCurrentUser();
     Optional<Recruiter> recruiter = recruiterService.findById(user.getId());
@@ -46,13 +44,20 @@ public class RecruiterController {
     return "recruiter_profile";
   }
 
+  /**
+   * Handles POST requests to "/recruiter-profile/addNew" to add a new recruiter profile.
+   *
+   * @param recruiter The {@link Recruiter} entity to be added.
+   * @param model The {@link Model} to which attributes are added for the view.
+   * @param multipartFile The {@link MultipartFile} containing the profile photo.
+   * @return A redirect to the dashboard page upon successful addition of the recruiter profile.
+   */
   @PostMapping("/addNew")
-  @PreAuthorize("@expressionService.isAuthenticated()")
   public String addRecruiterProfile(Recruiter recruiter, Model model,
                                     @RequestParam("image") MultipartFile multipartFile) {
     User user = securityContextHelper.getCurrentUser();
     model.addAttribute("profile", recruiter);
-    storeProfilePhoto(recruiter, multipartFile);
+    storeProfilePhoto(user, recruiter, multipartFile);
     recruiterService.createRecruiter(user, recruiter);
     return "redirect:/dashboard";
   }

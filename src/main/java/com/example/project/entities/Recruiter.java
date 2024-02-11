@@ -7,6 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.MapsId;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Data;
 
 /**
@@ -35,6 +36,11 @@ public class Recruiter {
 
   @Column(length = 64)
   private String profilePhoto;
+
+  @Transient
+  public String getPhotosImagePath() {
+    return (profilePhoto == null) ? null : "/photos/recruiter/" + recruiterId + "/" + profilePhoto;
+  }
 
   /**
    * Sets the user associated with recruiter.

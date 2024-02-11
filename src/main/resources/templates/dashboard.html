@@ -49,6 +49,9 @@
                     <i class="fa-solid fa-pencil"></i>Edit Account </a>
             </li>
         </ul>
+        <img class="rounded-circle me-3" height="50px" width="50x"
+             th:if="${user.photosImagePath!=null}"
+             th:src="@{${user?.photosImagePath}}" alt="image" />
         <label th:if="${user.firstName != null && user.lastName != null}" th:text="${user.firstName+' '+user.lastName}"
                class="nav-item nav-link px-2 me-3"></label>
         <label th:unless="${user.firstName != null && user.lastName != null}" th:text="${username}"
