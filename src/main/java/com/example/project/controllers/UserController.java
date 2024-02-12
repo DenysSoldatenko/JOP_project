@@ -1,17 +1,16 @@
 package com.example.project.controllers;
 
-import static com.example.project.utils.ErrorMessages.EMAIL_ALREADY_REGISTERED;
 import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 
 import com.example.project.entities.User;
 import com.example.project.entities.UserType;
+import com.example.project.exceptions.EmailAlreadyRegisteredException;
 import com.example.project.services.UserService;
 import com.example.project.services.UserTypeService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -54,18 +53,15 @@ public class UserController {
    */
   @PostMapping("/register/new")
   public String registerUser(@Valid User user, Model model) {
-    Optional<User> existingUser = userService.getUserByEmail(user.getEmail());
-
-    if (existingUser.isPresent()) {
-      model.addAttribute("error", EMAIL_ALREADY_REGISTERED);
-      List<UserType> userTypes = userTypeService.getAllUserTypes();
-      model.addAttribute("userTypes", userTypes);
+    try {
+      userService.createUser(user);
+      return "redirect:/dashboard";
+    } catch (EmailAlreadyRegisteredException e) {
+      model.addAttribute("error", e.getMessage());
+      model.addAttribute("userTypes", userTypeService.getAllUserTypes());
       model.addAttribute("newUser", new User());
       return "register";
     }
-
-    userService.createUser(user);
-    return "redirect:/dashboard";
   }
 
   /**

@@ -4,9 +4,9 @@ import static com.example.project.utils.ErrorMessages.USER_NOT_FOUND;
 import static org.springframework.security.core.context.SecurityContextHolder.getContext;
 
 import com.example.project.entities.User;
+import com.example.project.exceptions.UserNotFoundException;
 import com.example.project.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 /**
@@ -22,11 +22,11 @@ public class SecurityContextHelper {
    * Retrieves the currently authenticated user from the security context.
    *
    * @return The {@link User} object representing the current authenticated user.
-   * @throws UsernameNotFoundException If the current user's email is not found in the database.
+   * @throws UserNotFoundException If the current user's email is not found in the database.
    */
   public User getCurrentUser() {
-    String currentUsername = getContext().getAuthentication().getName();
-    return userRepository.findByEmail(currentUsername)
-      .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND + currentUsername));
+    String username = getContext().getAuthentication().getName();
+    return userRepository.findByEmail(username)
+      .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + username));
   }
 }

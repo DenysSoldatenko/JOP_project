@@ -1,5 +1,6 @@
 package com.example.project.services.impl;
 
+import static com.example.project.utils.ErrorMessages.EMAIL_ALREADY_REGISTERED;
 import static com.example.project.utils.ErrorMessages.USER_NOT_FOUND;
 import static java.lang.System.currentTimeMillis;
 import static org.springframework.security.core.context.SecurityContextHolder.getContext;
@@ -7,6 +8,8 @@ import static org.springframework.security.core.context.SecurityContextHolder.ge
 import com.example.project.entities.JobSeeker;
 import com.example.project.entities.Recruiter;
 import com.example.project.entities.User;
+import com.example.project.exceptions.EmailAlreadyRegisteredException;
+import com.example.project.exceptions.UserNotFoundException;
 import com.example.project.repositories.JobSeekerRepository;
 import com.example.project.repositories.RecruiterRepository;
 import com.example.project.repositories.UserRepository;
@@ -17,7 +20,6 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +43,11 @@ public class UserServiceImpl implements UserService {
    */
   @Transactional
   public void createUser(User user) {
+    userRepository.findByEmail(user.getEmail())
+        .ifPresent(existingUser -> {
+          throw new EmailAlreadyRegisteredException(EMAIL_ALREADY_REGISTERED);
+        });
+
     user.setActive(true);
     user.setPassword(passwordEncoder.encode(user.getPassword()));
     user.setRegistrationDate(new Date(currentTimeMillis()));
@@ -73,7 +80,7 @@ public class UserServiceImpl implements UserService {
     Authentication authentication = getContext().getAuthentication();
     String username = getContext().getAuthentication().getName();
     User user = userRepository.findByEmail(username)
-        .orElseThrow(() -> new UsernameNotFoundException(USER_NOT_FOUND));
+        .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + username));
     int userId = user.getId();
 
     if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("Recruiter"))) {

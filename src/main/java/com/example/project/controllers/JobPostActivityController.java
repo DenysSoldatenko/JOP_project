@@ -1,7 +1,6 @@
 package com.example.project.controllers;
 
-import static org.springframework.security.core.context.SecurityContextHolder.getContext;
-
+import com.example.project.security.SecurityContextHelper;
 import com.example.project.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,11 +15,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class JobPostActivityController {
 
   private final UserService userService;
+  private final SecurityContextHelper securityContextHelper;
 
   @GetMapping("/dashboard")
   public String searchJobs(Model model) {
     Object currentUserProfile = userService.getCurrentUserProfile();
-    String currentUsername = getContext().getAuthentication().getName();
+    String currentUsername = securityContextHelper.getCurrentUser().getEmail();
     model.addAttribute("username", currentUsername);
     model.addAttribute("user", currentUserProfile);
     return "dashboard";
