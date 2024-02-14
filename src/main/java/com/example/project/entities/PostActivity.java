@@ -1,5 +1,6 @@
 package com.example.project.entities;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -26,15 +27,15 @@ public class PostActivity {
   private Integer id;
 
   @ManyToOne
-  @JoinColumn(name = "users_id")
+  @JoinColumn(name = "user_id")
   private User user;
 
-  @ManyToOne
-  @JoinColumn(name = "locations_id")
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "location_id")
   private Location location;
 
-  @ManyToOne
-  @JoinColumn(name = "companies_id")
+  @ManyToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "company_id")
   private Company company;
 
   @Transient
