@@ -1,9 +1,11 @@
 package com.example.project.controllers;
 
+import com.example.project.dtos.RecruiterJobDto;
 import com.example.project.entities.PostActivity;
 import com.example.project.security.SecurityContextHelper;
 import com.example.project.services.PostActivityService;
 import com.example.project.services.UserService;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,13 @@ public class JobPostActivityController {
     String currentUsername = securityContextHelper.getCurrentUser().getEmail();
     model.addAttribute("username", currentUsername);
     model.addAttribute("user", currentUserProfile);
+
+    if (securityContextHelper.isCurrentUserRecruiter()) {
+      int recruiterId = securityContextHelper.getCurrentUser().getId();
+      List<RecruiterJobDto> recruiterJobs = postActivityService.getRecruiterJobs(recruiterId);
+      model.addAttribute("jobPost", recruiterJobs);
+    }
+
     return "dashboard";
   }
 
@@ -47,7 +56,7 @@ public class JobPostActivityController {
    * Handles the submission of a new job post activity.
    *
    * @param jobPostActivity The job post activity object to be added.
-   * @param model The model to be populated with necessary attributes.
+   * @param model           The model to be populated with necessary attributes.
    * @return Redirects to the dashboard page after adding the job post activity.
    */
   @PostMapping("/dashboard/addNew")

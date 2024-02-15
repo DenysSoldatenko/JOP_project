@@ -7,6 +7,7 @@ import com.example.project.entities.User;
 import com.example.project.exceptions.UserNotFoundException;
 import com.example.project.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
 /**
@@ -28,5 +29,19 @@ public class SecurityContextHelper {
     String username = getContext().getAuthentication().getName();
     return userRepository.findByEmail(username)
       .orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND + username));
+  }
+
+  /**
+   * Checks if the current authenticated user is a Recruiter.
+   *
+   * @return true if the user is a Recruiter, false otherwise.
+   */
+  public boolean isCurrentUserRecruiter() {
+    Authentication authentication = getContext().getAuthentication();
+    if (authentication != null) {
+      return authentication.getAuthorities().stream()
+        .anyMatch(authority -> authority.getAuthority().equals("Recruiter"));
+    }
+    return false;
   }
 }
