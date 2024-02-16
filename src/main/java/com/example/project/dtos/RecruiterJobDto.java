@@ -1,31 +1,22 @@
 package com.example.project.dtos;
 
+import com.example.project.entities.Company;
+import com.example.project.entities.Location;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+/**
+ * DTO for representing recruiter job details.
+ */
 @Data
+@AllArgsConstructor
+@RequiredArgsConstructor
 public class RecruiterJobDto {
 
   private Long totalCandidates;
-  private int jobPostId;
+  private Integer jobPostId;
   private String jobTitle;
-  private int locationId;
-  private String city;
-  private String state;
-  private String country;
-  private int companyId;
-  private String companyName;
-
-  public RecruiterJobDto(Long totalCandidates, Integer jobPostId, String jobTitle,
-                         Integer locationId, String city, String state,
-                         String country, Integer companyId, String companyName) {
-    this.totalCandidates = totalCandidates;
-    this.jobPostId = jobPostId;
-    this.jobTitle = jobTitle;
-    this.locationId = locationId;
-    this.city = city;
-    this.state = state;
-    this.country = country;
-    this.companyId = companyId;
-    this.companyName = companyName;
-  }
+  private Location location;
+  private Company company;
 }

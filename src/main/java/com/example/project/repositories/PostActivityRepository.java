@@ -1,6 +1,6 @@
 package com.example.project.repositories;
 
-import com.example.project.dtos.RecruiterJobDto;
+import com.example.project.dtos.RecruiterJobSummaryDto;
 import com.example.project.entities.PostActivity;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,8 +15,8 @@ import org.springframework.data.repository.query.Param;
 public interface PostActivityRepository extends JpaRepository<PostActivity, Integer> {
 
   @Query("""
-          SELECT new com.example.project.dtos.RecruiterJobDto(
-                 COUNT(s.user_id),
+          SELECT new com.example.project.dtos.RecruiterJobSummaryDto(
+                 COUNT(s.jobSeekerId),
                  j.id,
                  j.jobTitle,
                  l.id,
@@ -32,5 +32,5 @@ public interface PostActivityRepository extends JpaRepository<PostActivity, Inte
           WHERE j.user.id = :recruiter
           GROUP BY j.id, j.jobTitle, l.id, l.city, l.state, l.country, c.id, c.name
           """)
-  List<RecruiterJobDto> getRecruiterJobs(@Param("recruiter") int recruiter);
+  List<RecruiterJobSummaryDto> getRecruiterJobs(@Param("recruiter") int recruiter);
 }

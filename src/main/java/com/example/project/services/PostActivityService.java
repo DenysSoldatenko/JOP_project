@@ -12,4 +12,6 @@ public interface PostActivityService {
   void createPostActivity(PostActivity postActivity);
 
   List<RecruiterJobDto> getRecruiterJobs(int recruiter);
+
+  PostActivity findById(int id);
 }

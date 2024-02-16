@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 @RequiredArgsConstructor
-public class JobPostActivityController {
+public class PostActivityController {
 
   private final UserService userService;
   private final PostActivityService postActivityService;
@@ -33,6 +33,7 @@ public class JobPostActivityController {
     if (securityContextHelper.isCurrentUserRecruiter()) {
       int recruiterId = securityContextHelper.getCurrentUser().getId();
       List<RecruiterJobDto> recruiterJobs = postActivityService.getRecruiterJobs(recruiterId);
+      System.out.println(recruiterJobs.toString());
       model.addAttribute("jobPost", recruiterJobs);
     }
 
