@@ -3,6 +3,7 @@ package com.example.project.utils;
 import static java.nio.file.Files.copy;
 import static java.nio.file.Files.createDirectories;
 import static java.nio.file.Files.exists;
+import static java.nio.file.Paths.get;
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.StringUtils.cleanPath;
@@ -12,7 +13,6 @@ import com.example.project.entities.User;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
@@ -55,7 +55,7 @@ public class FileStorageHelper {
   public static void saveFile(String uploadDir,
                               String filename,
                               MultipartFile multipartFile) throws IOException {
-    Path uploadPath = Paths.get(uploadDir);
+    Path uploadPath = get(uploadDir);
     if (!exists(uploadPath)) {
       createDirectories(uploadPath);
       log.info("Created directory: {}", uploadPath);

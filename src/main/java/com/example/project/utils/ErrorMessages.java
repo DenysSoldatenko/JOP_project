@@ -10,6 +10,8 @@ public class ErrorMessages {
         = "User not found with email: ";
   public static final String RECRUITER_NOT_FOUND
         = "Recruiter not found with id: ";
+  public static final String JOB_SEEKER_NOT_FOUND
+        = "Job seeker not found with id: ";
   public static final String JOB_NOT_FOUND
-        = "Job ot found with id: ";
+        = "Job not found with id: ";
 }

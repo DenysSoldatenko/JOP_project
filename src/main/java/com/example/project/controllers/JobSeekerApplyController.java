@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * Controller class for handling job seeker applications and related actions.
+ */
 @Controller
 @RequiredArgsConstructor
 public class JobSeekerApplyController {
