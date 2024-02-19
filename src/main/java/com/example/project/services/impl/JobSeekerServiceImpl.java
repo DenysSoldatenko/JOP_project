@@ -5,6 +5,7 @@ import static java.util.Collections.singletonList;
 
 import com.example.project.entities.JobSeeker;
 import com.example.project.entities.Skill;
+import com.example.project.entities.User;
 import com.example.project.exceptions.JobSeekerNotFoundException;
 import com.example.project.repositories.JobSeekerRepository;
 import com.example.project.services.JobSeekerService;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class JobSeekerServiceImpl implements JobSeekerService {
+
   private final JobSeekerRepository jobSeekerRepository;
 
   @Override
@@ -27,5 +29,23 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     jobSeeker.setSkills(jobSeeker.getSkills().isEmpty()
         ? singletonList(new Skill()) : jobSeeker.getSkills());
     return jobSeeker;
+  }
+
+  @Override
+  public void createJobSeeker(User user, JobSeeker jobSeeker) {
+    JobSeeker existingJobSeeker = jobSeekerRepository.findWithSkillsById(user.getId())
+        .orElseThrow(() -> new JobSeekerNotFoundException(JOB_SEEKER_NOT_FOUND + user.getId()));
+
+    existingJobSeeker.setFirstName(jobSeeker.getFirstName());
+    existingJobSeeker.setLastName(jobSeeker.getLastName());
+    existingJobSeeker.setCity(jobSeeker.getCity());
+    existingJobSeeker.setState(jobSeeker.getState());
+    existingJobSeeker.setCountry(jobSeeker.getCountry());
+    existingJobSeeker.setWorkAuthorization(jobSeeker.getWorkAuthorization());
+    existingJobSeeker.setEmploymentType(jobSeeker.getEmploymentType());
+    existingJobSeeker.setResume(jobSeeker.getResume());
+    existingJobSeeker.setProfilePhoto(jobSeeker.getProfilePhoto());
+
+    jobSeekerRepository.save(existingJobSeeker);
   }
 }

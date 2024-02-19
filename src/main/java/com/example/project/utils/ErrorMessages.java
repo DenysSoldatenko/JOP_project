@@ -14,4 +14,6 @@ public class ErrorMessages {
         = "Job seeker not found with id: ";
   public static final String JOB_NOT_FOUND
         = "Job not found with id: ";
+  public static final String FILE_SAVE_ERROR
+        = "Could not save file: ";
 }

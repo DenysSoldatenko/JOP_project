@@ -1,6 +1,6 @@
 package com.example.project.controllers;
 
-import static com.example.project.utils.FileStorageHelper.storeProfilePhoto;
+import static com.example.project.utils.FileStorageHelper.storeRecruiterPhoto;
 
 import com.example.project.entities.Recruiter;
 import com.example.project.entities.User;
@@ -57,7 +57,7 @@ public class RecruiterController {
                                     @RequestParam("image") MultipartFile multipartFile) {
     User user = securityContextHelper.getCurrentUser();
     model.addAttribute("profile", recruiter);
-    storeProfilePhoto(user, recruiter, multipartFile);
+    storeRecruiterPhoto(user, recruiter, multipartFile);
     recruiterService.createRecruiter(user, recruiter);
     return "redirect:/dashboard";
   }

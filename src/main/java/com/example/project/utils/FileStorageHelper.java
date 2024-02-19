@@ -1,5 +1,6 @@
 package com.example.project.utils;
 
+import static com.example.project.utils.ErrorMessages.FILE_SAVE_ERROR;
 import static java.nio.file.Files.copy;
 import static java.nio.file.Files.createDirectories;
 import static java.nio.file.Files.exists;
@@ -8,6 +9,7 @@ import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static java.util.Objects.requireNonNull;
 import static org.springframework.util.StringUtils.cleanPath;
 
+import com.example.project.entities.JobSeeker;
 import com.example.project.entities.Recruiter;
 import com.example.project.entities.User;
 import java.io.IOException;
@@ -31,9 +33,9 @@ public class FileStorageHelper {
    * @param file The {@link MultipartFile} containing the profile photo.
    */
   @SneakyThrows
-  public static void storeProfilePhoto(User user, Recruiter recruiter, MultipartFile file) {
+  public static void storeRecruiterPhoto(User user, Recruiter recruiter, MultipartFile file) {
     if (file.isEmpty()) {
-      log.warn("Attempted to store an empty file for user: {}", user.getId());
+      log.warn("Attempted to store an empty file for recruiter: {}", user.getId());
       return;
     }
 
@@ -42,6 +44,33 @@ public class FileStorageHelper {
 
     String uploadDir = "photos/recruiter/" + user.getRecruiter().getRecruiterId();
     saveFile(uploadDir, filename, file);
+  }
+
+  /**
+   * Stores the job seeker's photo and resume files.
+   *
+   * @param user The {@link User} associated with the job seeker.
+   * @param jobSeeker The {@link JobSeeker} whose photo and resume are being stored.
+   * @param photo The photo {@link MultipartFile} to store.
+   * @param pdf The resume {@link MultipartFile} to store.
+   */
+  @SneakyThrows
+  public static void storeJobSeekerPhoto(User user, JobSeeker jobSeeker,
+                                         MultipartFile photo, MultipartFile pdf) {
+    if (photo.isEmpty() || pdf.isEmpty()) {
+      log.warn("Attempted to store an empty file for job seeker: {}", user.getId());
+      return;
+    }
+
+    String photoFilename = cleanPath(requireNonNull(photo.getOriginalFilename()));
+    jobSeeker.setProfilePhoto(photoFilename);
+
+    String pdfFilename = cleanPath(requireNonNull(pdf.getOriginalFilename()));
+    jobSeeker.setResume(pdfFilename);
+
+    String uploadDir = "photos/candidate/" + user.getJobSeeker().getJobSeekerId();
+    saveFile(uploadDir, photoFilename, photo);
+    saveFile(uploadDir, pdfFilename, pdf);
   }
 
   /**
@@ -68,7 +97,7 @@ public class FileStorageHelper {
       log.info("File saved successfully: {}", filename);
     } catch (IOException ioe) {
       log.error("Could not save file: {}", filename, ioe);
-      throw new IOException("Could not save file: " + filename, ioe);
+      throw new IOException(FILE_SAVE_ERROR + filename, ioe);
     }
   }
 }
