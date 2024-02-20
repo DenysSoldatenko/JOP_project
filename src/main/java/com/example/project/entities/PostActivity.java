@@ -52,8 +52,8 @@ public class PostActivity {
   @DateTimeFormat(pattern = "dd-MM-yyyy")
   private Date postedDate;
 
-  @OneToMany(mappedBy = "postActivityId")
-  private List<JobSeekerApply> applicants;
+  @OneToMany(mappedBy = "postActivity")
+  private List<JobApplication> applicants;
 
   private String jobType;
   private String salary;

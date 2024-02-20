@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 @Controller
 @RequiredArgsConstructor
-public class JobSeekerApplyController {
+public class JobApplicationController {
 
   private final PostActivityService postActivityService;
   private final UserService usersService;

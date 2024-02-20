@@ -16,7 +16,7 @@ public interface PostActivityRepository extends JpaRepository<PostActivity, Inte
 
   @Query("""
           SELECT new com.example.project.dtos.RecruiterJobSummaryDto(
-                 COUNT(s.jobSeekerId),
+                 COUNT(s.jobSeeker),
                  j.id,
                  j.jobTitle,
                  l.id,

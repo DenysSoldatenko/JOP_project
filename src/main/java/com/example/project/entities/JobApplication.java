@@ -20,9 +20,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @Entity(name = "job_seeker_applies")
 @Table(uniqueConstraints = {
-  @UniqueConstraint(columnNames = {"jobSeekerId", "postActivityId"})
+  @UniqueConstraint(columnNames = {"jobSeeker", "postActivity"})
 })
-public class JobSeekerApply implements Serializable {
+public class JobApplication implements Serializable {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,11 +30,11 @@ public class JobSeekerApply implements Serializable {
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "job_seeker_id")
-  private JobSeeker jobSeekerId;
+  private JobSeeker jobSeeker;
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "post_activity_id")
-  private PostActivity postActivityId;
+  private PostActivity postActivity;
 
   @DateTimeFormat(pattern = "dd-MM-yyyy")
   private Date applyDate;
