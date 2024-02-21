@@ -18,7 +18,7 @@ import lombok.Data;
 @Data
 @Entity(name = "saved_jobs")
 @Table(uniqueConstraints = {
-  @UniqueConstraint(columnNames = {"jobSeeker", "postActivity"})
+  @UniqueConstraint(columnNames = {"jobSeeker", "jobPost"})
 })
 public class SavedJob implements Serializable {
 
@@ -32,5 +32,5 @@ public class SavedJob implements Serializable {
 
   @ManyToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "post_activity_id")
-  private PostActivity postActivity;
+  private JobPost jobPost;
 }

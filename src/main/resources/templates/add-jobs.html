@@ -21,7 +21,7 @@
     <div class="col-md-7 container myForm">
         <form id="job-main-form" th:action="@{/dashboard/addNew}" th:object="${jobPostActivity}" method="post"
               class="job-add-form">
-            <input hidden type="text" th:field="*{id}">
+            <input hidden type="text" th:field="*{jobPostId}">
             <input hidden type="text" th:field="*{location.id}">
             <input hidden type="text" th:field="*{company.id}">
             <div class="row">
@@ -41,8 +41,8 @@
                 <div class="col-md-4 form-group">
                     <select id="type" th:field="*{jobType}" class="form-control">
                         <option value="">Employment Type</option>
-                        <option th:value="Full-time">Full-time</option>
-                        <option th:value="Part-time">Part-time</option>
+                        <option th:value="Full-Time">Full-time</option>
+                        <option th:value="Part-Time">Part-time</option>
                         <option th:value="Freelance">Freelance</option>
                         <option th:value="Internship">Internship</option>
                     </select>

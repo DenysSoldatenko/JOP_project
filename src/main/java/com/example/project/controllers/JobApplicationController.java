@@ -1,7 +1,7 @@
 package com.example.project.controllers;
 
-import com.example.project.entities.PostActivity;
-import com.example.project.services.PostActivityService;
+import com.example.project.entities.JobPost;
+import com.example.project.services.JobPostService;
 import com.example.project.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 @RequiredArgsConstructor
 public class JobApplicationController {
 
-  private final PostActivityService postActivityService;
+  private final JobPostService jobPostService;
   private final UserService usersService;
 
   @GetMapping("job-details-apply/{id}")
   public String showJobDetails(@PathVariable("id") int id, Model model) {
-    PostActivity jobDetails = postActivityService.findById(id);
+    JobPost jobDetails = jobPostService.findById(id);
     model.addAttribute("jobDetails", jobDetails);
     model.addAttribute("user", usersService.getCurrentUserProfile());
     return "job-details";
@@ -30,7 +30,7 @@ public class JobApplicationController {
 
   @PostMapping("dashboard/edit/{id}")
   public String editJob(@PathVariable("id") int id, Model model) {
-    PostActivity jobPostActivity = postActivityService.findById(id);
+    JobPost jobPostActivity = jobPostService.findById(id);
     model.addAttribute("jobPostActivity", jobPostActivity);
     model.addAttribute("user", usersService.getCurrentUserProfile());
     return "add-jobs";

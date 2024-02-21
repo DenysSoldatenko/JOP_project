@@ -1,6 +1,7 @@
 package com.example.project.entities;
 
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,11 +23,12 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @Entity
 @Table(name = "post_activities")
-public class PostActivity {
+public class JobPost {
 
   @Id
+  @Column(name = "id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Integer id;
+  private Integer jobPostId;
 
   @ManyToOne
   @JoinColumn(name = "user_id")
@@ -52,7 +54,7 @@ public class PostActivity {
   @DateTimeFormat(pattern = "dd-MM-yyyy")
   private Date postedDate;
 
-  @OneToMany(mappedBy = "postActivity")
+  @OneToMany(mappedBy = "jobPost")
   private List<JobApplication> applicants;
 
   private String jobType;
