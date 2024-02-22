@@ -1,7 +1,5 @@
 package com.example.project.controllers;
 
-import static com.example.project.utils.FileStorageHelper.storeJobSeekerPhoto;
-
 import com.example.project.entities.JobSeeker;
 import com.example.project.entities.User;
 import com.example.project.security.SecurityContextHelper;
@@ -49,8 +47,7 @@ public class JobSeekerController {
     JobSeeker jobSeeker = jobSeekerService.findById(currentUser.getId());
     model.addAttribute("skills", jobSeeker.getSkills());
     model.addAttribute("profile", jobSeeker);
-    storeJobSeekerPhoto(currentUser, jobSeekerProfile, image, pdf);
-    jobSeekerService.createJobSeeker(currentUser, jobSeekerProfile);
+    jobSeekerService.createJobSeeker(currentUser, jobSeekerProfile, image, pdf);
     return "redirect:/dashboard";
   }
 }

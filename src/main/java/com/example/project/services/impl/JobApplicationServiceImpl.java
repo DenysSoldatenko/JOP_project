@@ -9,6 +9,10 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * Implementation of the {@link JobApplicationService} interface.
+ * This service provides methods for managing {@link JobApplication} entities.
+ */
 @Service
 @RequiredArgsConstructor
 public class JobApplicationServiceImpl implements JobApplicationService {

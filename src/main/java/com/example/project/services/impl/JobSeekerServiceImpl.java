@@ -1,6 +1,7 @@
 package com.example.project.services.impl;
 
 import static com.example.project.utils.ErrorMessages.JOB_SEEKER_NOT_FOUND;
+import static com.example.project.utils.FileStorageHelper.storeJobSeekerPhoto;
 import static java.util.Collections.singletonList;
 
 import com.example.project.entities.JobSeeker;
@@ -11,6 +12,7 @@ import com.example.project.repositories.JobSeekerRepository;
 import com.example.project.services.JobSeekerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Implementation of the {@link JobSeekerService} interface.
@@ -32,7 +34,9 @@ public class JobSeekerServiceImpl implements JobSeekerService {
   }
 
   @Override
-  public void createJobSeeker(User user, JobSeeker jobSeeker) {
+  public void createJobSeeker(User user, JobSeeker jobSeeker,
+                              MultipartFile photo, MultipartFile pdf) {
+    storeJobSeekerPhoto(user, jobSeeker, photo, pdf);
     JobSeeker existingJobSeeker = jobSeekerRepository.findWithSkillsById(user.getId())
         .orElseThrow(() -> new JobSeekerNotFoundException(JOB_SEEKER_NOT_FOUND + user.getId()));
 

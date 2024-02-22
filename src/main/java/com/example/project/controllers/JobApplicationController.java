@@ -18,13 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class JobApplicationController {
 
   private final JobPostService jobPostService;
-  private final UserService usersService;
+  private final UserService userService;
 
   @GetMapping("job-details-apply/{id}")
   public String showJobDetails(@PathVariable("id") int id, Model model) {
     JobPost jobDetails = jobPostService.findById(id);
     model.addAttribute("jobDetails", jobDetails);
-    model.addAttribute("user", usersService.getCurrentUserProfile());
+    model.addAttribute("user", userService.getCurrentUserProfile());
     return "job-details";
   }
 
@@ -32,7 +32,7 @@ public class JobApplicationController {
   public String editJob(@PathVariable("id") int id, Model model) {
     JobPost jobPostActivity = jobPostService.findById(id);
     model.addAttribute("jobPostActivity", jobPostActivity);
-    model.addAttribute("user", usersService.getCurrentUserProfile());
+    model.addAttribute("user", userService.getCurrentUserProfile());
     return "add-jobs";
   }
 }

@@ -1,10 +1,10 @@
 package com.example.project.services;
 
 import com.example.project.dtos.RecruiterJobDto;
+import com.example.project.dtos.SearchCriteriaDto;
 import com.example.project.entities.JobApplication;
 import com.example.project.entities.JobPost;
 import com.example.project.entities.SavedJob;
-import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -20,8 +20,7 @@ public interface JobPostService {
 
   List<JobPost> findAllPostActivities();
 
-  List<JobPost> searchJobs(String job, String location, List<String> type,
-                                List<String> remote, LocalDate searchDate);
+  List<JobPost> searchJobs(SearchCriteriaDto searchCriteriaDto);
 
   void updateJobActivityFlagsForCandidates(List<JobPost> postActivities,
                                            List<JobApplication> jobApplications,

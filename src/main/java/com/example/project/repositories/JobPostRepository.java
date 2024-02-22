@@ -2,7 +2,6 @@ package com.example.project.repositories;
 
 import com.example.project.dtos.RecruiterJobSummaryDto;
 import com.example.project.entities.JobPost;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -48,9 +47,9 @@ public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
             AND (:remote IS NULL OR j.remote IN :remote)
       """)
   List<JobPost> findJobsWithoutDate(@Param("job") String job,
-                                         @Param("location") String location,
-                                         @Param("remote") List<String> remote,
-                                         @Param("type") List<String> type);
+                                    @Param("location") String location,
+                                    @Param("remote") List<String> remote,
+                                    @Param("type") List<String> type);
 
   @Query(value = """
       SELECT j
@@ -65,8 +64,8 @@ public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
             AND (j.postedDate >= :date)
       """)
   List<JobPost> findJobsWithDate(@Param("job") String job,
-                                      @Param("location") String location,
-                                      @Param("remote") List<String> remote,
-                                      @Param("type") List<String> type,
-                                      @Param("date") Date searchDate);
+                                 @Param("location") String location,
+                                 @Param("remote") List<String> remote,
+                                 @Param("type") List<String> type,
+                                 @Param("date") Date searchDate);
 }

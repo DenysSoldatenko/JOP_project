@@ -2,10 +2,12 @@ package com.example.project.services.impl;
 
 import static com.example.project.utils.ErrorMessages.JOB_NOT_FOUND;
 import static java.time.ZoneId.systemDefault;
+import static java.util.Arrays.asList;
 import static java.util.Date.from;
 import static java.util.stream.Collectors.toList;
 
 import com.example.project.dtos.RecruiterJobDto;
+import com.example.project.dtos.SearchCriteriaDto;
 import com.example.project.entities.Company;
 import com.example.project.entities.JobApplication;
 import com.example.project.entities.JobPost;
@@ -16,7 +18,6 @@ import com.example.project.exceptions.JobNotFoundException;
 import com.example.project.repositories.JobPostRepository;
 import com.example.project.security.SecurityContextHelper;
 import com.example.project.services.JobPostService;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -68,15 +69,21 @@ public class JobPostServiceImpl implements JobPostService {
     return jobPostRepository.findAll();
   }
 
-
   @Override
-  public List<JobPost> searchJobs(String job, String location, List<String> type,
-                                  List<String> remote, LocalDate searchDate) {
-    if (searchDate == null) {
-      return jobPostRepository.findJobsWithoutDate(job, location, remote, type);
+  public List<JobPost> searchJobs(SearchCriteriaDto searchCriteriaDto) {
+    List<String> employmentTypes = asList(searchCriteriaDto.getPartTime(),
+        searchCriteriaDto.getFullTime(), searchCriteriaDto.getFreelance());
+
+    List<String> remoteTypes = asList(searchCriteriaDto.getRemoteOnly(),
+        searchCriteriaDto.getOfficeOnly(), searchCriteriaDto.getPartialRemote());
+
+    if (searchCriteriaDto.getSearchDate() == null) {
+      return jobPostRepository.findJobsWithoutDate(searchCriteriaDto.getJob(),
+        searchCriteriaDto.getLocation(), remoteTypes, employmentTypes);
     } else {
-      Date date = from(searchDate.atStartOfDay(systemDefault()).toInstant());
-      return jobPostRepository.findJobsWithDate(job, location, remote, type, date);
+      Date date = from(searchCriteriaDto.getSearchDate().atStartOfDay(systemDefault()).toInstant());
+      return jobPostRepository.findJobsWithDate(searchCriteriaDto.getJob(),
+        searchCriteriaDto.getLocation(), remoteTypes, employmentTypes, date);
     }
   }
 

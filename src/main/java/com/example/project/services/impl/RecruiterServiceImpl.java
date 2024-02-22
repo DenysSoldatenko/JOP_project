@@ -1,6 +1,7 @@
 package com.example.project.services.impl;
 
 import static com.example.project.utils.ErrorMessages.RECRUITER_NOT_FOUND;
+import static com.example.project.utils.FileStorageHelper.storeRecruiterPhoto;
 
 import com.example.project.entities.Recruiter;
 import com.example.project.entities.User;
@@ -10,6 +11,7 @@ import com.example.project.services.RecruiterService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * Implementation of the {@link RecruiterService} interface
@@ -27,7 +29,8 @@ public class RecruiterServiceImpl implements RecruiterService {
   }
 
   @Override
-  public void createRecruiter(User user, Recruiter recruiter) {
+  public void createRecruiter(User user, Recruiter recruiter, MultipartFile file) {
+    storeRecruiterPhoto(user, recruiter, file);
     Recruiter existingRecruiter =  recruiterRepository.findById(user.getId())
         .orElseThrow(() -> new RecruiterNotFoundException(RECRUITER_NOT_FOUND + user.getId()));
 
