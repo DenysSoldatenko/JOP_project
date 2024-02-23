@@ -2,23 +2,19 @@ package com.example.project.controllers;
 
 import static com.example.project.dtos.SearchCriteriaDto.buildSearchCriteria;
 
-import com.example.project.dtos.RecruiterJobDto;
 import com.example.project.dtos.SearchCriteriaDto;
-import com.example.project.entities.JobApplication;
 import com.example.project.entities.JobPost;
-import com.example.project.entities.JobSeeker;
-import com.example.project.entities.SavedJob;
 import com.example.project.security.SecurityContextHelper;
-import com.example.project.services.JobApplicationService;
 import com.example.project.services.JobPostService;
-import com.example.project.services.SavedJobService;
 import com.example.project.services.UserService;
-import java.util.List;
+import com.example.project.utils.JobProfileProcessor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -26,12 +22,12 @@ import org.springframework.web.bind.annotation.RequestParam;
  */
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/dashboard")
 public class PostActivityController {
 
   private final UserService userService;
   private final JobPostService jobPostService;
-  private final SavedJobService savedJobService;
-  private final JobApplicationService jobApplicationService;
+  private final JobProfileProcessor jobProfileProcessor;
   private final SecurityContextHelper securityContextHelper;
 
   /**
@@ -51,7 +47,7 @@ public class PostActivityController {
    * @param days30 If jobs posted in the last 30 days should be included.
    * @return The view name for the dashboard page.
    */
-  @GetMapping("/dashboard")
+  @GetMapping
   public String searchJobs(Model model,
       @RequestParam(value = "job", required = false) String job,
       @RequestParam(value = "location", required = false) String location,
@@ -75,27 +71,13 @@ public class PostActivityController {
     model.addAttribute("job", criteria.getJob());
     model.addAttribute("location", criteria.getLocation());
 
-    List<JobPost> jobPost = criteria.isDefaultSearch(criteria)
-        ? jobPostService.findAllPostActivities()
-        : jobPostService.searchJobs(criteria);
-
     Object userProfile = userService.getCurrentUserProfile();
     model.addAttribute("user", userProfile);
+
     String currentUsername = securityContextHelper.getCurrentUser().getEmail();
     model.addAttribute("username", currentUsername);
 
-    if (securityContextHelper.isCurrentUserRecruiter()) {
-      int recruiterId = securityContextHelper.getCurrentUser().getId();
-      List<RecruiterJobDto> recruiterJobs = jobPostService.getRecruiterJobs(recruiterId);
-      model.addAttribute("jobPost", recruiterJobs);
-    } else {
-      List<JobApplication> applications = jobApplicationService.findAllByJobSeeker((JobSeeker) userProfile);
-      List<SavedJob> savedJobs = savedJobService.findAllByJobSeeker((JobSeeker) userProfile);
-      jobPostService.updateJobActivityFlagsForCandidates(jobPost, applications, savedJobs);
-      model.addAttribute("jobPost", jobPost);
-    }
-
-    return "dashboard";
+    return jobProfileProcessor.processJobPostDetails(model, userProfile, criteria);
   }
 
   /**
@@ -104,7 +86,7 @@ public class PostActivityController {
    * @param model The model to be populated with necessary attributes.
    * @return The view name "add-jobs" to render the form.
    */
-  @GetMapping("/dashboard/add")
+  @GetMapping("/add")
   public String showJobPostForm(Model model) {
     model.addAttribute("jobPostActivity", new JobPost());
     model.addAttribute("user", userService.getCurrentUserProfile());
@@ -118,10 +100,25 @@ public class PostActivityController {
    * @param model           The model to be populated with necessary attributes.
    * @return Redirects to the dashboard page after adding the job post activity.
    */
-  @PostMapping("/dashboard/addNew")
+  @PostMapping("/addNew")
   public String addJobPost(JobPost jobPostActivity, Model model) {
     jobPostService.createPostActivity(jobPostActivity);
     model.addAttribute("jobPostActivity", jobPostActivity);
     return "redirect:/dashboard";
+  }
+
+  /**
+   * Edits a job post activity.
+   *
+   * @param id    The ID of the job post activity to edit.
+   * @param model The model to be populated with necessary attributes.
+   * @return The name of the view to render, which is "add-jobs".
+   */
+  @PostMapping("/edit/{id}")
+  public String editJobPost(@PathVariable("id") int id, Model model) {
+    JobPost jobPostActivity = jobPostService.findById(id);
+    model.addAttribute("jobPostActivity", jobPostActivity);
+    model.addAttribute("user", userService.getCurrentUserProfile());
+    return "add-jobs";
   }
 }

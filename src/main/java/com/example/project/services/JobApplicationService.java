@@ -13,4 +13,6 @@ public interface JobApplicationService {
   List<JobApplication> findAllByJobSeeker(JobSeeker seeker);
 
   List<JobApplication> findAllByJobPost(JobPost jobPost);
+
+  void createJobApplication(int jobPostId, JobApplication jobApplication);
 }

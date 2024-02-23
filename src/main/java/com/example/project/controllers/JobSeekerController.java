@@ -39,6 +39,15 @@ public class JobSeekerController {
     return "job-seeker-profile";
   }
 
+  /**
+   * Handles the submission of a new job seeker profile.
+   *
+   * @param jobSeekerProfile The job seeker profile object to be added.
+   * @param model            The model to be populated with necessary attributes.
+   * @param image            The profile image file to be uploaded.
+   * @param pdf              The resume PDF file to be uploaded.
+   * @return Redirects to the dashboard page after adding the job seeker profile.
+   */
   @PostMapping("/addNew")
   public String addJobSeekerProfile(JobSeeker jobSeekerProfile, Model model,
                                     @RequestParam("image") MultipartFile image,

@@ -68,4 +68,15 @@ public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
                                  @Param("remote") List<String> remote,
                                  @Param("type") List<String> type,
                                  @Param("date") Date searchDate);
+
+
+  @Query(value = """
+      SELECT CASE WHEN COUNT(jsa) > 0 THEN true ELSE false END
+      FROM post_activities pa
+             JOIN job_seeker_applies jsa ON pa.id = jsa.post_activity_id
+             JOIN job_seekers js ON jsa.job_seeker_id = js.job_seeker_id
+      WHERE pa.id = :jobPostId and js.job_seeker_id = :jobSeekId
+      """, nativeQuery = true)
+  boolean existsByJobPostId(@Param("jobPostId") Integer jobPostId,
+                            @Param("jobSeekId") Integer jobSeekId);
 }

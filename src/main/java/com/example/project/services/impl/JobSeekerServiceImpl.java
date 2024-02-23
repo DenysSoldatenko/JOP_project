@@ -49,6 +49,7 @@ public class JobSeekerServiceImpl implements JobSeekerService {
     existingJobSeeker.setEmploymentType(jobSeeker.getEmploymentType());
     existingJobSeeker.setResume(jobSeeker.getResume());
     existingJobSeeker.setProfilePhoto(jobSeeker.getProfilePhoto());
+    existingJobSeeker.setSkills(jobSeeker.getSkills());
 
     jobSeekerRepository.save(existingJobSeeker);
   }

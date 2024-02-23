@@ -62,4 +62,20 @@ public class JobSeeker {
       user.setJobSeeker(this);
     }
   }
+
+  /**
+   * Sets the skills associated with this job seeker.
+   *
+   * @param skills The list of skills to be associated with this job seeker.
+   */
+  public void setSkills(List<Skill> skills) {
+    this.skills = skills;
+    if (skills != null) {
+      for (Skill skill : skills) {
+        if (skill.getJobSeeker() != this) {
+          skill.setJobSeeker(this);
+        }
+      }
+    }
+  }
 }

@@ -1,6 +1,6 @@
 package com.example.project.services.impl;
 
-import static com.example.project.utils.ErrorMessages.JOB_NOT_FOUND;
+import static com.example.project.utils.ErrorMessages.JOB_POST_NOT_FOUND;
 import static java.time.ZoneId.systemDefault;
 import static java.util.Arrays.asList;
 import static java.util.Date.from;
@@ -61,7 +61,7 @@ public class JobPostServiceImpl implements JobPostService {
   @Override
   public JobPost findById(int id) {
     return jobPostRepository.findById(id)
-      .orElseThrow(() -> new JobNotFoundException(JOB_NOT_FOUND + id));
+      .orElseThrow(() -> new JobNotFoundException(JOB_POST_NOT_FOUND + id));
   }
 
   @Override
@@ -105,5 +105,10 @@ public class JobPostServiceImpl implements JobPostService {
       jobActivity.setIsActive(exist);
       jobActivity.setIsSaved(saved);
     }
+  }
+
+  @Override
+  public boolean existsByJobPostId(Integer jobPostId, Integer jobSeekId) {
+    return jobPostRepository.existsByJobPostId(jobPostId, jobSeekId);
   }
 }
