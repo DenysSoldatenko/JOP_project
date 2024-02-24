@@ -77,6 +77,6 @@ public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
              JOIN job_seekers js ON jsa.job_seeker_id = js.job_seeker_id
       WHERE pa.id = :jobPostId and js.job_seeker_id = :jobSeekId
       """, nativeQuery = true)
-  boolean existsByJobPostId(@Param("jobPostId") Integer jobPostId,
-                            @Param("jobSeekId") Integer jobSeekId);
+  boolean existsApplicationByJobPostIdAndJobSeekerId(@Param("jobPostId") Integer jobPostId,
+                                                     @Param("jobSeekId") Integer jobSeekId);
 }

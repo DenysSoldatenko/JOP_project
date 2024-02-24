@@ -71,8 +71,9 @@ public class JobProfileProcessor {
     } else {
       JobSeeker jobSeeker = jobSeekerService.findById(securityContextHelper.getCurrentUser().getId());
       boolean alreadyApplied = jobPostService.existsByJobPostId(jobDetails.getJobPostId(), jobSeeker.getJobSeekerId());
+      boolean alreadySaved = savedJobService.existsByJobPostId(jobDetails.getJobPostId(), jobSeeker.getJobSeekerId());
       model.addAttribute("alreadyApplied", alreadyApplied);
-      model.addAttribute("alreadySaved", false);
+      model.addAttribute("alreadySaved", alreadySaved);
     }
 
     return "job-details";

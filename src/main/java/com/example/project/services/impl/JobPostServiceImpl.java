@@ -4,7 +4,6 @@ import static com.example.project.utils.ErrorMessages.JOB_POST_NOT_FOUND;
 import static java.time.ZoneId.systemDefault;
 import static java.util.Arrays.asList;
 import static java.util.Date.from;
-import static java.util.stream.Collectors.toList;
 
 import com.example.project.dtos.RecruiterJobDto;
 import com.example.project.dtos.SearchCriteriaDto;
@@ -55,7 +54,7 @@ public class JobPostServiceImpl implements JobPostService {
               summaryDto.getState(), summaryDto.getCountry()),
             new Company(summaryDto.getCompanyId(), summaryDto.getCompanyName(), "")
         )
-      ).collect(toList());
+      ).toList();
   }
 
   @Override
@@ -109,6 +108,6 @@ public class JobPostServiceImpl implements JobPostService {
 
   @Override
   public boolean existsByJobPostId(Integer jobPostId, Integer jobSeekId) {
-    return jobPostRepository.existsByJobPostId(jobPostId, jobSeekId);
+    return jobPostRepository.existsApplicationByJobPostIdAndJobSeekerId(jobPostId, jobSeekId);
   }
 }

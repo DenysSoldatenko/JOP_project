@@ -16,7 +16,6 @@ import com.example.project.repositories.UserRepository;
 import com.example.project.services.UserService;
 import jakarta.transaction.Transactional;
 import java.util.Date;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -62,17 +61,6 @@ public class UserServiceImpl implements UserService {
       jobSeeker.setUser(savedUser);
       jobSeekerRepository.save(jobSeeker);
     }
-  }
-
-  /**
-   * Retrieves a user by their email address.
-   *
-   * @param email The email address of the user to retrieve.
-   * @return An {@link Optional} containing the {@link User} entity, if found.
-   *         If no user is found with the specified email, an empty {@link Optional} is returned.
-   */
-  public Optional<User> getUserByEmail(String email) {
-    return userRepository.findByEmail(email);
   }
 
   @Override
