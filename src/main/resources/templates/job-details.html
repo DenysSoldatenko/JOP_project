@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" style="height: 100%">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org/"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" style="height: 100%">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8"/>
     <title>Candidate Dashboard</title>
-    <meta charset="utf-8" />
-    <meta http-equiv="x-ua-compatible" content="ie=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/styles.css}" />
-    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} " />
-    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/font-awesome.min.css}" />
+    <meta charset="utf-8"/>
+    <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+    <meta name="description" content=""/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/styles.css}"/>
+    <link th:rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css} "/>
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/font-awesome.min.css}"/>
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
 </head>
@@ -19,7 +20,8 @@
         <a th:href="@{/dashboard/}">jop</a>
         <span class="logo_com font-weight-bold h5" style="color: white">.com</span>
     </label>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+            aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarToggler">
@@ -49,17 +51,15 @@
                     <i class="fa-solid fa-pencil"></i>Edit Account </a>
             </li>
         </ul>
-        <img class="rounded-circle me-3" height="50px" width="50x" th:src="@{${user.photosImagePath}}" />
+        <img class="rounded-circle me-3" height="50px" width="50x" th:src="@{${user.photosImagePath}}"/>
         <label th:text="${user.firstName+' '+user.lastName}" class="nav-item nav-link px-2 me-3">John Doe</label>
         <button class="myBtn-light me-5" onclick="window.location.href='/logout'">Logout</button>
     </div>
 </header>
-<!-- header-end -->
 <section class="section">
-    <!--    Side Bar Starts here    -->
     <div class="sidenav px-5">
         <div>
-            <hr />
+            <hr/>
         </div>
     </div>
     <article>
@@ -70,7 +70,8 @@
             <div class="ms-3">
                 <h4 th:text="${jobDetails.jobTitle}" class="job-title text-left">Software Engineer</h4>
                 <div class="mt-1">
-                    <p th:text="${jobDetails.location.city+', '+ jobDetails.location.state}" class="m-0"> California, USA</p>
+                    <p th:text="${jobDetails.location.city+', '+ jobDetails.location.state}" class="m-0"> California,
+                        USA</p>
                     <p th:text="${jobDetails.company.name}">Company</p>
                 </div>
             </div>
@@ -80,7 +81,8 @@
             <div class="job-row">
                 <div class="row ">
                     <div class="col-md-3">
-                        <label class="text-left">Date Posted: <span th:text="${jobDetails.postedDate}">12 Nov, 2030</span>
+                        <label class="text-left">Date Posted: <span
+                                th:text="${jobDetails.postedDate}">12 Nov, 2030</span>
                         </label>
                     </div>
                     <div class="col-md-3 text-center">
@@ -107,20 +109,41 @@
                         <label class="large-label "> Job Description </label>
                         <div th:utext="${jobDetails.descriptionOfJob}"></div>
                     </div>
-                </div>
+                    <div class="col-md-3 centerCandidate">
+                        <div class="candidatesApplied">
+                            <label>Candidates Applied for Job</label>
+                            <th:block th:each="applyList : ${applyList}">
+                                <p>
+                                    <a th:href="@{/job-seeker-profile/{id}(id=${applyList.jobSeeker.jobSeekerId})}"
+                                       class="white"
+                                       th:text="${applyList.jobSeeker.firstName + ', ' + applyList.jobSeeker.lastName}">FirstName, LastName</a>
+                                </p>
+                            </th:block>
+                        </div>
+                    </div>
             </div>
             <div class="mt-3 px-3" sec:authorize="hasAuthority('Job Seeker')">
                 <div class="row">
                     <div class="col-md-3">
-                        <form th:action="@{/job-details/apply/{id}(id=${jobDetails.jobPostId})}" th:object="${applyJob}" method="post">
-                            <button class="btn-sec btn-red w-100" type="submit" th:if="${alreadyApplied == false}">Apply Now </button>
-                            <button class="btn-sec btn-red w-100" disabled th:if="${alreadyApplied == true}">Already Applied </button>
+                        <form th:action="@{/job-details/apply/{id}(id=${jobDetails.jobPostId})}" th:object="${applyJob}"
+                              method="post">
+                            <button class="btn-sec btn-red w-100" type="submit" th:if="${alreadyApplied == false}">Apply
+                                Now
+                            </button>
+                            <button class="btn-sec btn-red w-100" disabled th:if="${alreadyApplied == true}">Already
+                                Applied
+                            </button>
                         </form>
                     </div>
                     <div class="col-md-3">
-                        <form th:action="@{/job-details/save/{id}(id=${jobDetails.jobPostId})}" th:object="${applyJob}" method="post">
-                            <button class="btn-sec btn-black w-100" type="submit" th:if="${alreadySaved == false}">Save Job </button>
-                            <button class="btn-sec btn-black w-100" disabled th:if="${alreadySaved == true}">Already Saved </button>
+                        <form th:action="@{/job-details/save/{id}(id=${jobDetails.jobPostId})}" th:object="${applyJob}"
+                              method="post">
+                            <button class="btn-sec btn-black w-100" type="submit" th:if="${alreadySaved == false}">Save
+                                Job
+                            </button>
+                            <button class="btn-sec btn-black w-100" disabled th:if="${alreadySaved == true}">Already
+                                Saved
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -149,7 +172,7 @@
 <script>
     var element = document.getElementById('back-link');
     element.setAttribute('href', document.referrer);
-    element.onclick = function() {
+    element.onclick = function () {
         history.back();
         return false;
     }

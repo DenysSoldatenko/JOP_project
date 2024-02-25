@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -58,5 +59,19 @@ public class JobSeekerController {
     model.addAttribute("profile", jobSeeker);
     jobSeekerService.createJobSeeker(currentUser, jobSeekerProfile, image, pdf);
     return "redirect:/dashboard";
+  }
+
+  /**
+   * Handles requests to view a specific job seeker's profile by ID.
+   *
+   * @param id    The ID of the job seeker profile to be viewed.
+   * @param model The model to be populated with the job seeker profile.
+   * @return The name of the view to render, which is "job-seeker-profile".
+   */
+  @GetMapping("/{id}")
+  public String showProfile(@PathVariable("id") int id, Model model) {
+    JobSeeker jobSeeker = jobSeekerService.findById(id);
+    model.addAttribute("profile", jobSeeker);
+    return "job-seeker-profile";
   }
 }
