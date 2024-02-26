@@ -81,7 +81,7 @@ public class FileStorageHelper {
    * @param multipartFile The {@link MultipartFile} containing the file data.
    * @throws IOException If an error occurs while saving the file.
    */
-  public static void saveFile(String uploadDir,
+  private static void saveFile(String uploadDir,
                               String filename,
                               MultipartFile multipartFile) throws IOException {
     Path uploadPath = get(uploadDir);

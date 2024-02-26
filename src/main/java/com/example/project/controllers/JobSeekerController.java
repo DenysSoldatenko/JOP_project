@@ -1,10 +1,13 @@
 package com.example.project.controllers;
 
+import static com.example.project.utils.FileDownloadHelper.downloadFile;
+
 import com.example.project.entities.JobSeeker;
 import com.example.project.entities.User;
 import com.example.project.security.SecurityContextHelper;
 import com.example.project.services.JobSeekerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,5 +76,18 @@ public class JobSeekerController {
     JobSeeker jobSeeker = jobSeekerService.findById(id);
     model.addAttribute("profile", jobSeeker);
     return "job-seeker-profile";
+  }
+
+  /**
+   * Handles requests to download a user's resume.
+   *
+   * @param fileName The name of the file to be downloaded.
+   * @param userId   The ID of the user.
+   * @return A {@link ResponseEntity} containing the file resource or an error message.
+   */
+  @GetMapping("/downloadResume")
+  public ResponseEntity<?> downloadResume(@RequestParam(value = "fileName") String fileName,
+                                          @RequestParam(value = "userID") String userId) {
+    return downloadFile(userId, fileName);
   }
 }
