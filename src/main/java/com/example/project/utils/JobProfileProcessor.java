@@ -38,9 +38,7 @@ public class JobProfileProcessor {
    * @return The name of the view to render, which is "dashboard".
    */
   public String processJobPostDetails(Model model, Object userProfile, SearchCriteriaDto criteria) {
-    List<JobPost> jobPost = criteria.isDefaultSearch(criteria)
-        ? jobPostService.findAllPostActivities()
-        : jobPostService.searchJobs(criteria);
+    List<JobPost> jobPost = getJobPosts(criteria);
 
     if (securityContextHelper.isCurrentUserRecruiter()) {
       int recruiterId = securityContextHelper.getCurrentUser().getId();
@@ -77,5 +75,17 @@ public class JobProfileProcessor {
     }
 
     return "job-details";
+  }
+
+  /**
+   * Retrieves job posts based on the provided search criteria.
+   *
+   * @param criteria The criteria used for filtering job posts.
+   * @return A list of {@link JobPost} entities that match the search criteria.
+   */
+  public List<JobPost> getJobPosts(SearchCriteriaDto criteria) {
+    return criteria.isDefaultSearch(criteria)
+      ? jobPostService.findAllPostActivities()
+      : jobPostService.searchJobs(criteria);
   }
 }

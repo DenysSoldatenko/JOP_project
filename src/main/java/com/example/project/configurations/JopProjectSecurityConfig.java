@@ -27,7 +27,7 @@ public class JopProjectSecurityConfig {
 
   private static final String[] PUBLIC_ROUTES = {
     "/",
-    "/global-search/**",
+    "/dashboard/global-search/**",
     "/register",
     "/register/**",
     "/webjars/**",

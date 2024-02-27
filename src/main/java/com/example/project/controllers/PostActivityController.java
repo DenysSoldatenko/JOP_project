@@ -8,6 +8,7 @@ import com.example.project.security.SecurityContextHelper;
 import com.example.project.services.JobPostService;
 import com.example.project.services.UserService;
 import com.example.project.utils.JobProfileProcessor;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -78,6 +79,48 @@ public class PostActivityController {
     model.addAttribute("username", currentUsername);
 
     return jobProfileProcessor.processJobPostDetails(model, userProfile, criteria);
+  }
+
+  /**
+   * Handles the global search for job posts based on various criteria.
+   *
+   * @param model The model to be populated with search results.
+   * @param job The job title or keyword to search for.
+   * @param location The location or city to filter job posts by.
+   * @param partTime Indicates if part-time jobs should be included in the search.
+   * @param fullTime Indicates if full-time jobs should be included in the search.
+   * @param freelance Indicates if freelance jobs should be included in the search.
+   * @param remoteOnly Indicates if only remote jobs should be included in the search.
+   * @param officeOnly Indicates if only office-based jobs should be included in the search.
+   * @param partialRemote Indicates if partial remote jobs should be included in the search.
+   * @param today Indicates if job posts posted today should be included in the search.
+   * @param days7 Indicates if job posts posted within the last 7 days should be included in the search.
+   * @param days30 Indicates if job posts posted within the last 30 days should be included in the search.
+   * @return The name of the view template to render, "global-search".
+   */
+  @GetMapping("/global-search")
+  public String globalSearch(Model model,
+      @RequestParam(value = "job", required = false) String job,
+      @RequestParam(value = "location", required = false) String location,
+      @RequestParam(value = "partTime", required = false) String partTime,
+      @RequestParam(value = "fullTime", required = false) String fullTime,
+      @RequestParam(value = "freelance", required = false) String freelance,
+      @RequestParam(value = "remoteOnly", required = false) String remoteOnly,
+      @RequestParam(value = "officeOnly", required = false) String officeOnly,
+      @RequestParam(value = "partialRemote", required = false) String partialRemote,
+      @RequestParam(value = "today", required = false) boolean today,
+      @RequestParam(value = "days7", required = false) boolean days7,
+      @RequestParam(value = "days30", required = false) boolean days30
+  ) {
+
+    SearchCriteriaDto criteria = buildSearchCriteria(
+        job, location, partTime, fullTime, freelance, remoteOnly,
+        officeOnly, partialRemote, today, days7, days30
+    );
+
+    List<JobPost> jobPost = jobProfileProcessor.getJobPosts(criteria);
+    model.addAttribute("jobPost", jobPost);
+    return "global-search";
   }
 
   /**
