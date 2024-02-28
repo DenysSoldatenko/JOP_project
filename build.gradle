@@ -33,20 +33,11 @@ dependencies {
     implementation "org.webjars:jquery:${jqueryVersion}"
     implementation "org.webjars:webjars-locator:${webjarsLocatorVersion}"
     implementation "org.webjars:font-awesome:${fontAwesomeVersion}"
-    implementation "org.mapstruct:mapstruct:${mapStructVersion}"
     implementation "org.thymeleaf.extras:thymeleaf-extras-springsecurity6:${thymeleafExtrasSpringSecurity6Version}"
 
     compileOnly "org.projectlombok:lombok:${lombokVersion}"
     annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapStructVersion}"
 
     developmentOnly "org.springframework.boot:spring-boot-devtools:${springBootVersion}"
     runtimeOnly "org.postgresql:postgresql:${postgresqlVersion}"
-
-    testImplementation "org.springframework.boot:spring-boot-starter-test:${springBootVersion}"
-    testRuntimeOnly "org.junit.platform:junit-platform-launcher:${junitPlatformVersion}"
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }
