@@ -8,6 +8,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.NamedAttributeNode;
+import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
@@ -23,6 +25,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 @Data
 @Entity
 @Table(name = "post_activities")
+@NamedEntityGraph(
+    name = "JobPost.companyAndLocation",
+    attributeNodes = {
+      @NamedAttributeNode("company"),
+      @NamedAttributeNode("location")
+    }
+)
 public class JobPost {
 
   @Id

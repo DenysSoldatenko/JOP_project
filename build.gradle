@@ -28,6 +28,7 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-validation:${springBootVersion}"
     implementation "org.springframework.boot:spring-boot-starter-security:${springBootVersion}"
 
+    implementation "net.datafaker:datafaker:${dataFakerVersion}"
     implementation "org.liquibase:liquibase-core:${liquibaseVersion}"
     implementation "org.webjars:bootstrap:${bootstrapVersion}"
     implementation "org.webjars:jquery:${jqueryVersion}"

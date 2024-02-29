@@ -1,9 +1,12 @@
 package com.example.project.repositories;
 
+import static org.springframework.data.jpa.repository.EntityGraph.EntityGraphType.FETCH;
+
 import com.example.project.dtos.RecruiterJobSummaryDto;
 import com.example.project.entities.JobPost;
 import java.util.Date;
 import java.util.List;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +17,10 @@ import org.springframework.data.repository.query.Param;
  * and additional methods for querying and managing post activities.
  */
 public interface JobPostRepository extends JpaRepository<JobPost, Integer> {
+
+  @EntityGraph(value = "JobPost.companyAndLocation", type = FETCH)
+  @Query("SELECT j FROM JobPost j")
+  List<JobPost> findAllJobPosts();
 
   @Query("""
       SELECT new com.example.project.dtos.RecruiterJobSummaryDto(

@@ -65,7 +65,7 @@ public class JobPostServiceImpl implements JobPostService {
 
   @Override
   public List<JobPost> findAllPostActivities() {
-    return jobPostRepository.findAll();
+    return jobPostRepository.findAllJobPosts();
   }
 
   @Override
