@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Configuration;
  * to ensure proper data insertion during seeding.</p>
  */
 @Slf4j
-@Configuration
+//@Configuration
 @RequiredArgsConstructor
 public class DatabaseInitializer {
 
