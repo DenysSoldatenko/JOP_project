@@ -15,6 +15,10 @@ import org.springframework.context.annotation.Configuration;
  * <p>Note: Ensure that in the {@link JobApplication}, {@link SavedJob}, and {@link JobPost} entities,
  * the relationships defined with {@code CascadeType.ALL} are updated to {@code @ManyToOne}
  * to ensure proper data insertion during seeding.</p>
+ *
+ * <p>To disable specific changesets, such as the insertion of default user types in
+ * {@code src/main/resources/liquibase/changesets/001-create-users-and-users-type.sql},
+ * comment out or remove the relevant SQL commands.</p>
  */
 @Slf4j
 //@Configuration

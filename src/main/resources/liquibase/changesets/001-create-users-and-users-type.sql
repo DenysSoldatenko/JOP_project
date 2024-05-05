@@ -14,3 +14,7 @@ CREATE TABLE IF NOT EXISTS users
     user_type_id      INT,
     FOREIGN KEY (user_type_id) REFERENCES users_type (user_type_id)
 );
+
+INSERT INTO users_type (user_type_id, user_type_name)
+VALUES (1, 'Recruiter'),
+       (2, 'Job Seeker');
