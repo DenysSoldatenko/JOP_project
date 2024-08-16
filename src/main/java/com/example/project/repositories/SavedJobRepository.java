@@ -19,7 +19,7 @@ public interface SavedJobRepository extends JpaRepository<SavedJob, Integer> {
   @Query(value = """
       SELECT CASE WHEN COUNT(sj) > 0 THEN true ELSE false END
       FROM post_activities pa
-               JOIN jop.saved_jobs sj on pa.id = sj.post_activity_id
+               JOIN saved_jobs sj on pa.id = sj.post_activity_id
                JOIN job_seekers js ON sj.job_seeker_id = js.job_seeker_id
       WHERE pa.id = :jobPostId and js.job_seeker_id = :jobSeekId
       """, nativeQuery = true)
